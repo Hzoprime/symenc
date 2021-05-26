@@ -2,7 +2,6 @@
 
 namespace cryptology
 {
-    // template <typename Encryption>
     template <template <int, int> typename Encryption, int key_size, int block_size>
     class ECB : public ModeBase<Encryption, key_size, block_size>
     {

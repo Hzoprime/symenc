@@ -286,6 +286,7 @@ namespace cryptology
 
             memcpy(plain_text, state, sizeof(state));
         }
+
         void test_mix_columns(byte plain_text[n_byte_in_block], byte cipher[n_byte_in_block])
         {
             memcpy(state, plain_text, sizeof(state));
