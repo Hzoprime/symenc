@@ -7,7 +7,6 @@ namespace cryptology
     class ECB : public ModeBase<Encryption, key_size, block_size>
     {
         typedef ModeBase<Encryption, key_size, block_size> _base;
-
     public:
         ECB() : ModeBase<Encryption, key_size, block_size>()
         {
@@ -47,7 +46,6 @@ namespace cryptology
             int n_bytes_of_text = plain_text.size();
             encrypt(text_ptr, n_bytes_of_text, cipher_text);
         }
-
         void decrypt(const string &cipher_text, byte *plain_text)
         {
             const byte *text_ptr = (const byte *)cipher_text.c_str();
