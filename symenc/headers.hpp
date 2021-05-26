@@ -17,7 +17,7 @@ namespace cryptology
     using std::vector;
     using std::deque;
     using std::string;
-
+    using std::is_base_of;
     typedef unsigned char byte;
     typedef unsigned long word;
 

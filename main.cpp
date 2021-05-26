@@ -1,14 +1,14 @@
-#include <iostream>
+#include "symenc/headers.hpp"
 #include "symenc/algorithm/symalg.hpp"
 #include "symenc/algorithm/aes.hpp"
 #include "symenc/mode/ecb.hpp"
+#include <map>
 using cryptology::AES;
 using cryptology::byte;
 using cryptology::ECB;
 using std::cin;
 using std::cout;
 using std::endl;
-#include <map>
 using std::map;
 int to_value[256];
 int to_exp[256];
@@ -50,17 +50,21 @@ void oops()
     }
     cout << endl;
 }
-
+using std::string;
 int main()
 {
-    // std::is_base_of<cryptology::EncryptionBase, cryptology::AES>::value;
+    char p[5] = "1234";
+    string s(p);
+    cout << s.size() << endl;
+    cout << s << endl;
+    cout << s[4] << endl;
+    ECB<AES, 256, 128> ee;
+    string a = "0123456789";
+    cout << &a << endl;
+    cout << &(a[0]) << endl;
+    cout << &(a[1]) << endl;
+    cout << &(a[2]) << endl;
 
-
-    cryptology::EncryptionBase<256, 128> *e;
-    e = new AES<256>();
-
-
-    ECB<AES<256>> ee;
     // oops();
     // for (int i = 0; i < 256; i++)
     // {
@@ -96,4 +100,6 @@ int main()
     // cout << endl;
     // cout << endl;
     // a.test(block, cipher);
+    cout << "ri" << endl;
+    return 0;
 }

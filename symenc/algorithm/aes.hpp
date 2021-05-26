@@ -249,7 +249,7 @@ namespace cryptology
             expand_key(key);
         }
 
-        void encrypt(byte plain_text[n_byte_in_block], byte cipher_text[n_byte_in_block])
+        void encrypt(const byte plain_text[n_byte_in_block], byte cipher_text[n_byte_in_block])
         {
             cout << "encrypt" << endl;
             memcpy(state, plain_text, sizeof(state));
@@ -266,7 +266,7 @@ namespace cryptology
             add_round_keys(round);
             memcpy(cipher_text, state, sizeof(state));
         }
-        void decrypt(byte cipher_text[n_byte_in_block], byte plain_text[n_byte_in_block])
+        void decrypt(const byte cipher_text[n_byte_in_block], byte plain_text[n_byte_in_block])
         {
             cout << "decrypt" << endl;
             memcpy(state, cipher_text, sizeof(state));

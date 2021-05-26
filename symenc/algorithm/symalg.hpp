@@ -14,20 +14,20 @@ namespace cryptology
         {
             cout << "constructor of EncryptionBase<" << key_size << "," << block_size << ">" << endl;
         }
-
         virtual ~EncryptionBase()
         {
             cout << "destructor of EncryptionBase<" << key_size << "," << block_size << ">" << endl;
         }
-        virtual void encrypt(byte plain_text[n_byte_in_block], byte cipher_text[n_byte_in_block]) = 0;
-        virtual void decrypt(byte cipher_text[n_byte_in_block], byte plain_text[n_byte_in_block]) = 0;
-        constexpr static int get_key_length()
+
+        virtual void encrypt(const byte plain_text[n_byte_in_block], byte cipher_text[n_byte_in_block]) = 0;
+        virtual void decrypt(const byte cipher_text[n_byte_in_block], byte plain_text[n_byte_in_block]) = 0;
+        constexpr static int get_key_bytes()
         {
-            return key_size;
+            return n_byte_in_key  ;
         }
-        constexpr static int get_block_length()
+        constexpr static int get_block_bytes()
         {
-            return block_size;
+            return n_byte_in_block;
         }
     };
 } // namespace cryptology
