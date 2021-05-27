@@ -6,12 +6,17 @@ namespace cryptology
     class ECB : public ModeBase<Encryption, key_size, block_size>
     {
         typedef ModeBase<Encryption, key_size, block_size> _base;
+
     public:
         ECB() : ModeBase<Encryption, key_size, block_size>()
         {
         }
         ~ECB()
         {
+        }
+        void set_key(const byte key[Encryption<key_size, block_size>::get_key_bytes()])
+        {
+            _base::e->set_key(key);
         }
         void encrypt(const byte *plain_text, const int &length, byte *cipher_text)
         {

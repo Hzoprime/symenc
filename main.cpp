@@ -53,41 +53,30 @@ void oops()
 using std::string;
 int main()
 {
-    char p[5] = "1234";
-    string s(p);
-    cout << s.size() << endl;
-    cout << s << endl;
-    cout << s[4] << endl;
     ECB<AES, 256, 128> ee;
-    string a = "0123456789";
-    cout << &a << endl;
-    cout << &(a[0]) << endl;
-    cout << &(a[1]) << endl;
-    cout << &(a[2]) << endl;
+    byte key[16];
+    for (int i = 0; i < 16; i++)
+    {
+        key[i] = rand() % 0x7f;
+    }
+    ee.set_key(key);
+    byte block[1234];
+    for (int i = 0; i < 1234; i++)
+    {
+        block[i] = rand() % 0x7f;
+    }
+    byte cipher[1234];
+    ee.encrypt(block, 1234, cipher);
+    byte plain_text[1264];
+    ee.decrypt(cipher, 1264, plain_text);
+    for (int i = 0; i < 1234; i++)
+    {
+        if (plain_text[i] != block[i])
+        {
+            cout << i << '\t' << (int)block[i] << '\t' << (int)plain_text[i] << endl;
+        }
+    }
 
-    // oops();
-    // for (int i = 0; i < 256; i++)
-    // {
-    //     cout << i << endl;
-    //     assert(CHECK(i, 2));
-    //     assert(CHECK(i, 3));
-    //     assert(CHECK(i, 9));
-    //     assert(CHECK(i, 11));
-    //     assert(CHECK(i, 13));
-    //     assert(CHECK(i, 14));
-    // }
-
-    // AES<256> a;
-    // byte key[16];
-    // for (int i = 0; i < 16; i++)
-    // {
-    //     key[i] = rand() % 0x7f;
-    // }
-    // byte block[16];
-    // for (int i = 0; i < 16; i++)
-    // {
-    //     block[i] = rand() % 0x7f;
-    // }
     // byte cipher[16];
 
     // a.set_key(key);
@@ -103,3 +92,15 @@ int main()
     cout << "ri" << endl;
     return 0;
 }
+
+// oops();
+// for (int i = 0; i < 256; i++)
+// {
+//     cout << i << endl;
+//     assert(CHECK(i, 2));
+//     assert(CHECK(i, 3));
+//     assert(CHECK(i, 9));
+//     assert(CHECK(i, 11));
+//     assert(CHECK(i, 13));
+//     assert(CHECK(i, 14));
+// }

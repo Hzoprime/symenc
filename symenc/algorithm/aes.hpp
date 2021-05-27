@@ -51,7 +51,7 @@ namespace cryptology
             {0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61},
             {0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D}};
 
-        void expand_key(byte origin_key[n_byte_in_key])
+        void expand_key(const byte origin_key[n_byte_in_key])
         {
             int i = 0; // count of byte number;
             for (i = 0; i < n_byte_in_key; i++)
@@ -242,16 +242,14 @@ namespace cryptology
             cout << "destructor of AES<" << key_size << ">" << endl;
         }
 
-        void set_key(byte key[n_byte_in_key])
+        void set_key(const byte key[n_byte_in_key])
         {
-            cout << "set_key" << endl;
             reset();
             expand_key(key);
         }
 
         void encrypt(const byte plain_text[n_byte_in_block], byte cipher_text[n_byte_in_block])
         {
-            cout << "encrypt" << endl;
             memcpy(state, plain_text, sizeof(state));
             add_round_keys(0);
             for (int i = 1; i < round; i++)
@@ -268,7 +266,6 @@ namespace cryptology
         }
         void decrypt(const byte cipher_text[n_byte_in_block], byte plain_text[n_byte_in_block])
         {
-            cout << "decrypt" << endl;
             memcpy(state, cipher_text, sizeof(state));
 
             add_round_keys(round);
