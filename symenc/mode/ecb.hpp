@@ -56,5 +56,12 @@ namespace cryptology
             int n_bytes_of_text = cipher_text.size();
             decrypt(text_ptr, n_bytes_of_text, plain_text);
         }
+        Byte encrypt(const Byte &plain_text)
+        {
+            
+        }
+        Byte encrypt(const byte *plain_text, const int &length)
+        {
+        }
     };
 }

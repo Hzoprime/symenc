@@ -17,6 +17,63 @@ int to_exp[256];
 #define MY_MUL(x, y) (to_value[(to_exp[(x)] + to_exp[(y)]) % 255])
 #define WIKI_MUL(x, y) ((int)cryptology::gf256_##y[x])
 
+class BytePtr
+{
+private:
+    typedef byte *ptr;
+
+public:
+    byte *bytes;
+    BytePtr()
+    {
+        bytes = new byte[100];
+        cout << "constructor of byteptr" << endl;
+    }
+    BytePtr(const BytePtr &p) : bytes(new byte[100])
+    {
+        cout << "copy constructor of byteptr" << endl;
+        memcpy(this->bytes, p.bytes, 100);
+    }
+    BytePtr(BytePtr &&p) : bytes(p.bytes)
+    {
+        p.bytes = nullptr;
+        cout << "move constructor of byteptr" << endl;
+    }
+    ~BytePtr()
+    {
+        if (bytes != nullptr)
+        {
+            delete[] bytes;
+        }
+        else
+        {
+            cout << "nullptr" << endl;
+        }
+
+        cout << "destructor of byteptr" << endl;
+    }
+};
+
+BytePtr a()
+{
+    BytePtr b;
+    b.bytes[0] = '2';
+    b.bytes[1] = '\0';
+    return b;
+}
+BytePtr bbb(BytePtr bb)
+{
+    BytePtr c(bb);
+    c.bytes[0] = '\0';
+    return c;
+}
+void t()
+{
+    BytePtr p;
+    BytePtr b = a();
+    BytePtr c = bbb(b);
+}
+// -fno-elide-constructors
 void oops()
 {
     memset(to_value, -1, sizeof(to_value));
@@ -53,6 +110,8 @@ void oops()
 using std::string;
 int main()
 {
+    t();
+    return 0;
     ECB<AES, 256, 128> ee;
     byte key[16];
     for (int i = 0; i < 16; i++)
@@ -78,7 +137,6 @@ int main()
     }
 
     // byte cipher[16];
-
     // a.set_key(key);
     // cout << block << endl;
     // a.encrypt(block, cipher);
@@ -92,15 +150,3 @@ int main()
     cout << "ri" << endl;
     return 0;
 }
-
-// oops();
-// for (int i = 0; i < 256; i++)
-// {
-//     cout << i << endl;
-//     assert(CHECK(i, 2));
-//     assert(CHECK(i, 3));
-//     assert(CHECK(i, 9));
-//     assert(CHECK(i, 11));
-//     assert(CHECK(i, 13));
-//     assert(CHECK(i, 14));
-// }

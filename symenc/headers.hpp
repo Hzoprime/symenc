@@ -12,12 +12,11 @@ namespace cryptology
     using std::bitset;
     using std::cin;
     using std::cout;
+    using std::deque;
     using std::endl;
+    using std::is_base_of;
     using std::string;
     using std::vector;
-    using std::deque;
-    using std::string;
-    using std::is_base_of;
     typedef unsigned char byte;
     typedef unsigned long word;
 
@@ -121,6 +120,61 @@ namespace cryptology
                                            0x37, 0x39, 0x2b, 0x25, 0x0f, 0x01, 0x13, 0x1d, 0x47, 0x49, 0x5b, 0x55, 0x7f, 0x71, 0x63, 0x6d,
                                            0xd7, 0xd9, 0xcb, 0xc5, 0xef, 0xe1, 0xf3, 0xfd, 0xa7, 0xa9, 0xbb, 0xb5, 0x9f, 0x91, 0x83, 0x8d};
 
+    class Byte
+    {
+    private:
+        byte *bytes;
+        int length;
+
+    public:
+        Byte(const int &_length, const byte *b = nullptr) : length(_length), bytes(new byte[_length])
+        {
+            if (b)
+            {
+                memcpy(bytes, b, length);
+            }
+        }
+        Byte(const Byte &b) : length(b.length), bytes(new byte[b.length])
+        {
+            memcpy(this->bytes, b.bytes, length);
+        }
+        Byte(Byte &&b) : length(b.length), bytes(b.bytes)
+        {
+            b.bytes = nullptr;
+        }
+        ~Byte()
+        {
+            if (this->bytes != nullptr)
+            {
+                delete[] bytes;
+            }
+        }
+        int size() const
+        {
+            return length;
+        }
+        friend std::ostream &operator<<(std::ostream &out, const Byte &b)
+        {
+            for (int i = 0; i < b.size(); i++)
+            {
+                out << (int)b.bytes[i] << ' ';
+                if ((i % (1 << 8) == 0))
+                {
+                    out << endl;
+                }
+            }
+            return out;
+        }
+        byte *plain_text()
+        {
+            return bytes;
+        }
+        byte *cipher_text()
+        {
+            return bytes;
+        }
+    };
+
 } // namespace cryptology
 #ifdef DEBUG
 std::ostream &operator<<(std::ostream &out, cryptology::byte state[4][4])
@@ -154,9 +208,9 @@ std::vector<int> state2vector(cryptology::byte state[4][4])
     return v;
 }
 
-std::ostream& operator<<(std::ostream& out, const std::vector<int>& v)
+std::ostream &operator<<(std::ostream &out, const std::vector<int> &v)
 {
-    for(int i = 0; i < v.size(); i++)
+    for (int i = 0; i < v.size(); i++)
     {
         out << v[i] << ' ';
     }
@@ -165,11 +219,11 @@ std::ostream& operator<<(std::ostream& out, const std::vector<int>& v)
 #endif
 
 // case1: T* can cast to C*
-template <template <typename...> class C, typename...Ts>
-std::true_type is_base_of_template_impl(const C<Ts...>*);
+template <template <typename...> class C, typename... Ts>
+std::true_type is_base_of_template_impl(const C<Ts...> *);
 // case2: T* cannot cast to C*
 template <template <typename...> class C>
 std::false_type is_base_of_template_impl(...);
 
 template <template <typename...> class C, typename T>
-using is_base_of_template = decltype(is_base_of_template_impl<C>(std::declval<T*>()));
+using is_base_of_template = decltype(is_base_of_template_impl<C>(std::declval<T *>()));
